@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
+button {
+  height: 5vh;
+  width: 10vh;
+  background-color: rgb(0, 50, 79);
+  color: rgb(255, 252, 174);
+  font-size: 1.4em;
+  font-weight: 700;
+  border: 0;
+  border-radius: 25vh;
+  cursor: pointer;
+}
+
+button a {
+    color: #f7a400;
+    text-decoration: none;
+}
+
+button:hover {
+  background-color: rgb(0, 92, 66);
+  color: rgb(255, 252, 174);
+  font-weight: 700;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: 20px;
+}
+
+.fish {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  animation: swim 3s ease-in-out infinite;
+}
+
+.fish-body {
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  background-color: #f7a400;
+  border-radius: 50% 50% 50% 30%;
+  top: 50%;
+  left: 10%;
+  transform: translateY(-50%);
+}
+
+.tail {
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  width: 30px;
+  height: 30px;
+  background-color: #f7a400;
+  clip-path: polygon(100% 50%, 0 0, 0 100%);
+  transform: translateY(-50%) rotate(30deg);
+}
+
+.fin {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 15px;
+  height: 20px;
+  background-color: #f7a400;
+  border-radius: 50%;
+}
+
+@keyframes swim {
+  0% {
+    transform: translateX(-200px) translateY(0);
+  }
+  50% {
+    transform: translateX(0) translateY(-20px);
+  }
+  100% {
+    transform: translateX(200px) translateY(0);
+  }
+}
+
+.error-message h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.error-message p {
+  font-size: 1.2rem;
+  color: #666;
+}
+

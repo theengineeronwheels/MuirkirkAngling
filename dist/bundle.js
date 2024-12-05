@@ -1,0 +1,1 @@
+(()=>{"use strict";require("http").createServer(((e,t)=>{t.statusCode=200,t.setHeader("Content-Type","text/plain"),t.end("Hello, World!\n")})).listen(3e3,(()=>{console.log("Server running on port 3000")}))})();

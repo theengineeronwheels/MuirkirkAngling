@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout - Payment for Permit</title>
+    <link rel="stylesheet" href="styles/Globals.css">
+  </head>
+  <body>
+    <header>
+      <h1>Muirkirk Angling Association</h1>
+    </header>
+      <nav class="nav-bar">
+        <button><a href="/login" title="Log In to your account">Log In</a></button>
+        <button><a href="/" title="Back to Store homepage">Home</a></button>
+      </nav>
+    <main>
+      <div class="container">
+        <div class="info">
+          <h2>Checkout</h2>
+
+          <div class="renewal-message">
+            <p><%= sanitizedRenewedCount %> members have already renewed their permits. Don't miss out on the new season!</p>
+          </div>
+
+          <h3>
+            <p>You're about to renew your permit for the <%= sanitizedPermitType %> permit.</p>
+            <p>Your renewal price is £<%= renewalPrice %></p>
+          </h3>
+
+          <!-- Form for Stripe Payment -->
+          <form id="payment-form">
+            <h2>Email:</h2> <input type="email" name="email" id="email" required value="<%= sanitizedUserEmail %>" />
+            <input type="hidden" name="amount" id="amount" value="<%= renewalPrice * 100 %>" /> <!-- Renewal price in cents -->
+            <input type="hidden" name="firstName" value="<%= sanitizedUserFirstName %>" />
+            <input type="hidden" name="lastName" value="<%= sanitizedUserLastName %>" />
+            <button type="hidden" id="payNowButton">Pay Now</button>
+          </form>
+
+          <!-- Bank Transfer Option -->
+          <h3>Bank Transfer Option</h3>
+          <p>If you prefer, you can pay via bank transfer:</p>
+          <p><strong>Bank:</strong> Your Bank Name</p>
+          <p><strong>Sort Code:</strong> 12-34-56</p>
+          <p><strong>Account Number:</strong> 12345678</p>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <h2>Copyright Muirkirk Angling Association 2025</h2>
+    </footer>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+      // Initialize Stripe with your public key
+      const stripe = Stripe('');
+
+      // Get the payment button
+      document.getElementById("payNowButton").addEventListener("click", async function (event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        // Get the necessary data from the form
+        const amount = document.getElementById("amount").value;
+        const email = document.getElementById("email").value;
+        const firstName = document.querySelector("[name='firstName']").value;
+        const lastName = document.querySelector("[name='lastName']").value;
+
+        try {
+          // Make a request to your backend to create a Stripe Checkout session
+          const response = await fetch("/create-stripe-payment", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              amount: amount,  // Amount in cents
+              email: email,  // User's email
+              firstName: firstName,  // User's first name
+              lastName: lastName,  // User's last name
+            }),
+          });
+
+          const session = await response.json();
+
+          if (session.id) {
+            // Redirect to Stripe Checkout
+            stripe.redirectToCheckout({ sessionId: session.id })
+              .then((result) => {
+                if (result.error) {
+                  console.error(result.error.message);
+                  alert('There was an issue with the payment. Please try again later.');
+                }
+              });
+          } else {
+            console.error("Failed to create session");
+            alert('There was an issue with the payment, please try again.');
+          }
+        } catch (error) {
+          console.error("Error creating Stripe session:", error);
+          alert('An error occurred, please try again later.');
+        }
+      });
+    </script>
+  </body>
+</html>

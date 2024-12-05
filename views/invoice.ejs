@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice - Payment for Permit</title>
+    <link rel="stylesheet" href="styles/Globals.css" />
+  </head>
+  <body>
+<header>
+    <h1>Muirkirk Angling Association</h1>     
+  <nav>
+        <button><a href="/login" title="Log In to your account">Log In</a></button>
+        <button><a href="/" title="Back to Store homepage">Home</a></button>
+      </nav>
+      </header>
+    <main>
+      <div class="container">
+        <div class="info">
+          <h2>Invoice - Payment for Your Permit</h2>
+          <h3>Thank you for your payment, <%= firstName %> <%= lastName %>!</h3>
+
+          <p>Your <%= permitType %> permit renewal has been processed successfully.</p>
+
+          <h3>Payment Details</h3>
+          <p><strong>Invoice ID:</strong> <%= paymentIntentId %></p>
+          <p><strong>Amount Paid:</strong> £<%= paymentAmount %></p>
+          <p><strong>Status:</strong> <%= paymentStatus %></p>
+          <p><strong>Payment Date:</strong> <%= paymentDate %></p>
+
+          <h3>Important Details</h3>
+          <p>If you have any questions about your payment or need further assistance, please contact us.</p>
+
+          <p><a href="/members">Return to your account</a></p>
+        </div>
+      </div>
+    </main>
+
+  <footer>&copy; Muirkirk Angling Association 2025</footer>
+  </body>
+</html>
